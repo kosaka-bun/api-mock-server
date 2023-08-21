@@ -1,0 +1,5 @@
+###
+GET {{base_url}}/test
+
+###
+POST {{base_url}}/test2/abc
