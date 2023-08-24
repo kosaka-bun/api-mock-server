@@ -5,3 +5,6 @@ spring:
   output:
     ansi:
       enabled: always
+
+app:
+  response-file-base: ./response_files

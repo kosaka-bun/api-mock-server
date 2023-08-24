@@ -1,5 +1,8 @@
 ###
-GET {{base_url}}/test
+GET {{base_url}}/test/test1
 
 ###
-POST {{base_url}}/test2/abc
+GET {{base_url}}/test/test2
+
+###
+GET {{base_url}}/test/test3

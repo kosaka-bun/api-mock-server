@@ -9,10 +9,13 @@ import org.springframework.boot.runApplication
 class ApiMockServerApplication
 
 fun main(args: Array<String>) {
-    ConsoleWindow.Builder.of().apply {
+    val consoleWindow = ConsoleWindow.Builder.of().apply {
         windowName = "API Mock Server"
         screenZoomScale = 1.25
         onExit = ThrowsRunnable {}
     }.build()
+    if(args.isEmpty() || args[0].lowercase() != "show") {
+        consoleWindow.hide()
+    }
     runApplication<ApiMockServerApplication>(*args)
 }
