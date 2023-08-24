@@ -69,3 +69,7 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = sourceCompatibility
 }
+
+bootJar {
+    version ''
+}
