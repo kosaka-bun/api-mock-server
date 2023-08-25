@@ -27,33 +27,35 @@ class AllController(
         val isPlain = file.name.endsWith("plain.json", true)
         //读取文件
         val content = file.reader().use { it.readText() }
-        val json = JSONUtil.parse(content)
         //生成响应
         if(isPlain) {
             //判断并修改HTTP状态码
-            val status = if(json is JSONObject) {
-                val code = json.getInt("code")
-                if(code == null || code == 0) {
-                    HttpStatus.OK.value()
-                } else {
-                    HttpStatus.INTERNAL_SERVER_ERROR.value()
-                }
-            } else HttpStatus.OK.value()
-            response.status = status
+            response.status = guessHttpStatus(JSONUtil.parse(content))
             //响应
             return content
         }
         //处理复杂数据的响应
-        val jo = json as JSONObject
-        val resInfo = jo.getJSONArray("responses").getJSONObject(jo.getInt("active") ?: 0).also {
-            it ?: throw IndexOutOfBoundsException("the active index exceeded the max index")
-        }
-        response.status = resInfo.getInt("http_status") ?: HttpStatus.OK.value()
-        resInfo.getJSONObject("headers")?.run {
+        val fileData = JSONUtil.toBean(content, ResponseFileData::class.java)
+        val resInfo = fileData.responses!![fileData.active ?: 0]
+        response.status = resInfo?.httpStatus ?: guessHttpStatus(resInfo?.body)
+        resInfo?.headers?.run {
             keys.forEach {
-                response.addHeader(it, getStr(it) ?: "")
+                response.addHeader(it, get(it)?.toString() ?: "")
             }
         }
-        return resInfo["body"]?.toString() ?: throw NullPointerException("response body is null")
+        return resInfo?.body!!.toString()
+    }
+
+    private fun guessHttpStatus(obj: Any?): Int {
+        return if(obj is JSONObject) {
+            obj.getInt("code")?.let {
+                when(it) {
+                    0, HttpStatus.OK.value() -> HttpStatus.OK.value()
+                    else -> HttpStatus.INTERNAL_SERVER_ERROR.value()
+                }
+            } ?: HttpStatus.OK.value()
+        } else {
+            HttpStatus.OK.value()
+        }
     }
 }

@@ -1,21 +1,22 @@
 package de.honoka.server.apimock
 
-import de.honoka.sdk.util.code.ThrowsRunnable
-import de.honoka.sdk.util.system.gui.ConsoleWindow
+import de.honoka.sdk.util.framework.spring.gui.SpringBootConsoleWindow
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
 
 @SpringBootApplication
 class ApiMockServerApplication
 
 fun main(args: Array<String>) {
-    val consoleWindow = ConsoleWindow.Builder.of().apply {
-        windowName = "API Mock Server"
-        screenZoomScale = 1.25
-        onExit = ThrowsRunnable {}
-    }.build()
-    if(args.isEmpty() || args[0].lowercase() != "show") {
-        consoleWindow.hide()
+    SpringBootConsoleWindow.of(
+        "API Mock Server",
+        1.25,
+        ApiMockServerApplication::class.java
+    ).run {
+        configureWindowBuilder {
+            it.isBackgroundMode = true
+            it.isShowOnBuild = false
+        }
+        applicationArgs = args
+        createAndRun()
     }
-    runApplication<ApiMockServerApplication>(*args)
 }

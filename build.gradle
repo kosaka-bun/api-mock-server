@@ -43,8 +43,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-    implementation 'de.honoka.sdk:honoka-utils:1.0.7'
-    implementation 'de.honoka.sdk:honoka-framework-utils:1.0.1'
+    implementation 'de.honoka.sdk:honoka-utils:1.0.8'
+    implementation 'de.honoka.sdk:honoka-framework-utils:1.0.2'
     implementation 'cn.hutool:hutool-all:5.8.18'
     String lombok = 'org.projectlombok:lombok:1.18.26'
     compileOnly lombok
