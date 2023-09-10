@@ -4,10 +4,12 @@ data class ResponseFileData(
 
     var active: Int? = null,
 
-    var responses: List<ResponseDetailsData?>? = null
+    var responses: List<ResponseDetailsData>? = null
 )
 
 data class ResponseDetailsData(
+
+    var matches: Map<String, Any>? = null,
 
     var httpStatus: Int? = null,
 
