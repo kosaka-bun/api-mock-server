@@ -1,4 +1,4 @@
-package de.honoka.server.apimock
+package de.honoka.server.apimock.data
 
 data class ResponseFileData(
 

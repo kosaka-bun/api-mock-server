@@ -1,4 +1,4 @@
-package de.honoka.server.apimock
+package de.honoka.server.apimock.component
 
 import cn.hutool.core.exceptions.ExceptionUtil
 import de.honoka.sdk.util.framework.web.ApiResponse

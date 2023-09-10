@@ -1,4 +1,4 @@
-package de.honoka.server.apimock
+package de.honoka.server.apimock.component
 
 import de.honoka.sdk.util.code.ColorfulText
 import org.slf4j.Logger

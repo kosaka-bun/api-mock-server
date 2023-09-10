@@ -1,7 +1,9 @@
-package de.honoka.server.apimock
+package de.honoka.server.apimock.component
 
 import cn.hutool.json.JSONObject
 import cn.hutool.json.JSONUtil
+import de.honoka.server.apimock.data.ResponseFileData
+import de.honoka.server.apimock.util.CustomJsonUtils
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -21,12 +23,12 @@ class AllController(
     @RequestMapping("/{*path}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun onRequest(@PathVariable path: String, response: HttpServletResponse): String {
         //寻找文件
-        var file = Path.of(mainProperties.responseFileBase!!, "$path.json").toFile()
-        if(!file.exists()) file = Path.of(mainProperties.responseFileBase!!, "$path.plain.json").toFile()
+        var file = Path.of(mainProperties.responseFileBase!!, "$path.json5").toFile()
+        if(!file.exists()) file = Path.of(mainProperties.responseFileBase!!, "$path.plain.json5").toFile()
         if(!file.exists()) throw FileNotFoundException("the response files of $path are all not found")
-        val isPlain = file.name.endsWith("plain.json", true)
+        val isPlain = file.name.endsWith("plain.json5", true)
         //读取文件
-        val content = file.reader().use { it.readText() }
+        val content = file.reader().use { CustomJsonUtils.json5ToJson(it.readText()) }
         //生成响应
         if(isPlain) {
             //判断并修改HTTP状态码
